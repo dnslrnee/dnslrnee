@@ -3,14 +3,29 @@ const nav = document.querySelector('.nav');
 const header = document.querySelector('.header');
 
 if (menuToggle && nav) {
+  const updateMenuIcon = () => {
+    const isOpen = nav.classList.contains('nav-open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+  };
+
   menuToggle.addEventListener('click', () => {
     nav.classList.toggle('nav-open');
+    updateMenuIcon();
   });
 
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       nav.classList.remove('nav-open');
+      updateMenuIcon();
     });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      nav.classList.remove('nav-open');
+      updateMenuIcon();
+    }
   });
 }
 
